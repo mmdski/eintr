@@ -1,0 +1,373 @@
+#+title: List Processing
+#+author: Marian Domanski
+#+date: <2025-07-28 Mon>
+#+startup: overview
+
+* DONE 1.1 Lisp Lists
+CLOSED: [2025-07-28 Mon 16:36]
+
+#+begin_src elisp
+  '(rose violet daisy buttercup)
+#+end_src
+
+#+RESULTS:
+| rose | violet | daisy | buttercup |
+
+** DONE Numbers, Lists inside of Lists
+CLOSED: [2025-07-28 Mon 16:17]
+
+#+begin_src elisp
+  (+ 2 2)
+#+end_src
+
+#+RESULTS:
+: 4
+
+#+begin_src elisp
+  '(this list has (a list inside of it))
+#+end_src
+
+#+RESULTS:
+| this | list | has | (a list inside of it) |
+
+** DONE 1.1.1 Lisp Atoms
+CLOSED: [2025-07-28 Mon 16:21]
+
+#+begin_src elisp
+  '(this list includes "text between quotation marks.")
+#+end_src
+
+#+RESULTS:
+| this | list | includes | text between quotation marks. |
+
+** DONE 1.1.2 Whitespace in Lists
+CLOSED: [2025-07-28 Mon 16:35]
+
+#+begin_src elisp
+  '(this list
+         looks like this)
+#+end_src
+
+#+RESULTS:
+| this | list | looks | like | this |
+
+#+begin_src elisp
+  '(this list looks like this)
+#+end_src
+
+#+RESULTS:
+| this | list | looks | like | this |
+
+* DONE 1.2 Run a Program
+CLOSED: [2025-07-28 Mon 17:04]
+#+begin_src elisp
+  (+ 2 2)
+#+end_src
+
+#+RESULTS:
+: 4
+
+#+begin_src elisp
+  '(this is a quoted list)
+#+end_src
+
+#+RESULTS:
+| this | is | a | quoted | list |
+
+* DONE 1.3 Generate an Error Message
+CLOSED: [2025-07-28 Mon 17:08]
+
+#+begin_src elisp
+  (this is an unquoted list)
+#+end_src
+
+* DONE 1.4 Symbol Names and Function Definitions
+CLOSED: [2025-07-28 Mon 17:13]
+
+* DONE 1.5 The Lisp Interpreter
+CLOSED: [2025-07-28 Mon 18:20]
+
+** DONE Complications
+CLOSED: [2025-07-28 Mon 18:19]
+
+** DONE 1.5.1 Byte Compiling
+CLOSED: [2025-07-28 Mon 18:20]
+
+* DONE 1.6 Evaluation
+CLOSED: [2025-07-28 Mon 18:31]
+
+** DONE How the Lisp Interpreter Acts
+CLOSED: [2025-07-28 Mon 18:27]
+
+** DONE 1.6.1 Evaluating Inner Lists
+CLOSED: [2025-07-28 Mon 18:31]
+
+#+begin_src elisp
+  (+ 2 (+ 3 3))
+#+end_src
+
+#+RESULTS:
+: 8
+
+* DONE 1.7 Variables
+CLOSED: [2025-07-30 Wed 19:07]
+
+#+begin_src elisp
+  fill-column
+#+end_src
+
+#+RESULTS:
+: 80
+
+** DONE 1.7.1 Error Message for a Symbol Without a Function
+CLOSED: [2025-07-30 Wed 07:15]
+
+#+begin_src elisp
+  (fill-column)
+#+end_src
+
+Symbol's function definition is void: fill-column
+
+** DONE 1.7.2 Error Message for a Symbol Without a Value
+CLOSED: [2025-07-30 Wed 19:06]
+
+#+begin_src elisp
+  +
+#+end_src
+
+Symbol's value as variable is void: +
+
+#+begin_src elisp
+  (+ 2 2)
+#+end_src
+
+#+RESULTS:
+: 4
+
+* DONE 1.8 Arguments
+CLOSED: [2025-07-30 Wed 20:52]
+
+** DONE 1.8.1 Arguments' Data Types
+CLOSED: [2025-07-30 Wed 19:27]
+
+#+begin_src elisp
+  (concat "abc" "def")
+#+end_src
+
+#+RESULTS:
+: abcdef
+
+#+begin_src elisp
+  (substring "The quick brown fox jumped." 16 19)
+#+end_src
+
+#+RESULTS:
+: fox
+
+** DONE 1.8.2 An Argument as the Value of a Variable or List
+CLOSED: [2025-07-30 Wed 19:41]
+
+#+begin_src elisp
+  (+ 2 fill-column)
+#+end_src
+
+#+RESULTS:
+: 82
+
+#+begin_src elisp
+  (concat "The " (number-to-string (+ 2 fill-column)) " red foxes.")
+#+end_src
+
+#+RESULTS:
+: The 82 red foxes.
+
+** DONE 1.8.3 Variable Number of Arguments
+CLOSED: [2025-07-30 Wed 19:43]
+
+#+begin_src elisp
+  (+)
+#+end_src
+
+#+RESULTS:
+: 0
+
+#+begin_src elisp
+  (*)
+#+end_src
+
+#+RESULTS:
+: 1
+
+#+begin_src elisp
+(+ 3)
+#+end_src
+
+#+RESULTS:
+: 3
+
+#+begin_src elisp
+  (* 3)
+#+end_src
+
+#+RESULTS:
+: 3
+
+#+begin_src elisp
+  (+ 3 4 5)
+#+end_src
+
+#+RESULTS:
+: 12
+
+#+begin_src elisp
+  (* 3 4 5)
+#+end_src
+
+#+RESULTS:
+: 60
+
+** DONE 1.8.4 Using the Wrong Type Object as an Argument
+CLOSED: [2025-07-30 Wed 19:55]
+
+#+begin_src elisp
+  (+ 2 'hello)
+#+end_src
+
+progn: Wrong type argument: number-or-marker-p, hello
+
+** DONE 1.8.5 The 'message' function
+CLOSED: [2025-07-30 Wed 20:28]
+
+#+begin_src elisp
+  (message "This message appears in the echo area!")
+#+end_src
+
+#+RESULTS:
+: This message appears in the echo area!
+
+#+begin_src elisp
+  (message "The name of this buffer is: %s." (buffer-name))
+#+end_src
+
+#+RESULTS:
+: The name of this buffer is: 01_list_processing.org.
+
+#+begin_src elisp
+  (message "There are %d %s in the office!" (- fill-column 14) "pink elephants")
+#+end_src
+
+#+RESULTS:
+: There are 66 pink elephants in the office!
+#+begin_src elisp
+  (message "He saw %d %s"
+         (- fill-column 32)
+         (concat "red "
+                 (substring
+                  "The quick brown foxes jumped." 16 21)
+                 " leaping."))
+#+end_src
+
+#+RESULTS:
+: He saw 48 red foxes leaping.
+
+* DONE 1.9 Setting the Value of a Variable
+CLOSED: [2025-07-31 Thu 23:04]
+
+** DONE 1.9.1 Using 'setq'
+CLOSED: [2025-07-31 Thu 21:22]
+
+#+begin_src elisp
+  (setq flowers '(rose violet daisy buttercup))
+#+end_src
+
+#+RESULTS:
+| rose | violet | daisy | buttercup |
+
+#+begin_src elisp
+  flowers
+#+end_src
+
+#+RESULTS:
+| rose | violet | daisy | buttercup |
+
+#+begin_src elisp
+  'flowers
+#+end_src
+
+#+RESULTS:
+: flowers
+
+#+begin_src elisp
+  (setq carnivores '(lion tiger leopard))
+#+end_src
+
+#+RESULTS:
+| lion | tiger | leopard |
+
+#+begin_src elisp
+  (setq trees '(pine fir oak maple)
+        herbivores '(gazelle antelope zebra))
+#+end_src
+
+#+RESULTS:
+| gazelle | antelope | zebra |
+
+** DONE 1.9.2 Counting
+CLOSED: [2025-07-31 Thu 21:27]
+
+#+begin_src elisp
+  (setq counter 0)
+  (setq counter (+ counter 1))
+  counter
+#+end_src
+
+#+RESULTS:
+: 1
+
+* DONE 1.10 Summary
+CLOSED: [2025-07-31 Thu 21:28]
+
+* DONE 1.11 Exercises
+CLOSED: [2025-07-31 Thu 23:06]
+
+** DONE Generate an error message by evaluating an appropriate symbol that is not within parenthesis.
+CLOSED: [2025-07-31 Thu 22:59]
+
+#+begin_src elisp
+  foo
+#+end_src
+
+Symbol's value as variable is void: foo
+
+
+
+** DONE Generate an error message by evaluating an appropriate symbol that is between parentheses.
+CLOSED: [2025-07-31 Thu 23:02]
+
+#+begin_src elisp
+  (foo)
+#+end_src
+
+Symbol's function definition is void: foo
+
+** DONE Create a counter that increments by two rather than one.
+CLOSED: [2025-07-31 Thu 23:04]
+
+#+begin_src elisp
+  (setq counter 0)
+  (setq counter (+ counter 2))
+  counter
+#+end_src
+
+#+RESULTS:
+: 2
+
+** DONE Write an expression that prints a message in the echo area when evaluated.
+CLOSED: [2025-07-31 Thu 23:06]
+
+#+begin_src elisp
+  (message "Hi, %s!" "Tyke")
+#+end_src
+
+#+RESULTS:
+: Hi, Tyke!
