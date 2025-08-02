@@ -1,0 +1,85 @@
+#+title: Practicing Evaluation
+#+author: Marian Domanski
+#+date: <2025-08-01 Fri 07:29>
+#+startup: overview
+
+* DONE 2.1 Buffer Names
+CLOSED: [2025-08-01 Fri 07:44]
+#+begin_src elisp
+  (buffer-name)
+#+end_src
+
+#+RESULTS:
+: 02_practicing_evaluation.org
+
+#+begin_src elisp
+  (buffer-file-name)
+#+end_src
+
+* DONE 2.2 Getting Buffers
+CLOSED: [2025-08-01 Fri 07:48]
+
+#+begin_src elisp
+  (current-buffer)
+#+end_src
+
+#+RESULTS:
+: #<buffer 02_practicing_evaluation.org>
+
+#+begin_src elisp
+  (other-buffer)
+#+end_src
+
+#+RESULTS:
+: #<buffer *scratch*>
+
+* DONE 2.3 Switching Buffers
+CLOSED: [2025-08-01 Fri 21:36]
+
+#+begin_src elisp
+  (switch-to-buffer (other-buffer))
+#+end_src
+
+#+RESULTS:
+: #<buffer *scratch*>
+
+#+begin_src elisp
+  (switch-to-buffer (other-buffer (current-buffer) t))
+#+end_src
+
+#+RESULTS:
+: #<buffer *info*>
+
+* DONE 2.4 Buffer Size and the Location of Point
+CLOSED: [2025-08-01 Fri 21:46]
+
+#+begin_src elisp
+  (buffer-size)
+#+end_src
+
+#+RESULTS:
+: 912
+
+#+begin_src elisp
+  (point)
+#+end_src
+
+#+RESULTS:
+: 958
+
+#+begin_src elisp
+  (point-min)
+#+end_src
+
+#+RESULTS:
+: 1
+
+#+begin_src elisp
+  (point-max)
+#+end_src
+
+#+RESULTS:
+: 1089
+
+* DONE 2.5 Exercises
+CLOSED: [2025-08-01 Fri 21:47]
