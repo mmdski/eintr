@@ -1,0 +1,349 @@
+#+title: Writing Defuns
+#+author: Marian Domanski
+#+date: <2025-08-02 Sat 14:04>
+#+startup: overview
+
+* DONE 3.1 The 'defun' Macro
+CLOSED: [2025-08-02 Sat 14:40]
+
+** DONE Five parts to a defun
+CLOSED: [2025-08-02 Sat 14:39]
+
+*** The name of the symbol
+
+*** A list of arguments. If no arguments, then empty list '()'
+
+*** Documentation (optional)
+
+*** Interactive? (optional)
+
+*** Function body
+
+** Example
+
+Not interactive
+
+#+begin_src elisp
+  (defun multiply-by-seven (number)
+    "Multiply NUMBER by seven."
+    (* 7 number))
+#+end_src
+
+#+RESULTS:
+: multiply-by-seven
+
+#+begin_src elisp
+  (multiply-by-seven 3)
+#+end_src
+
+#+RESULTS:
+: 21
+
+* DONE 3.2 Install a Function Definition
+CLOSED: [2025-08-02 Sat 16:53]
+
+#+begin_src elisp
+  (defun multiply-by-seven (number)
+    "Multiply NUMBER by seven."
+    (* 7 number))
+#+end_src
+
+#+RESULTS:
+: multiply-by-seven
+
+** The effect of installation
+
+#+begin_src elisp
+  (multiply-by-seven 3)
+#+end_src
+
+#+RESULTS:
+: 21
+
+#+begin_example
+multiply-by-seven is a function without a source file.
+
+Signature
+(multiply-by-seven NUMBER)
+
+Documentation
+Multiply NUMBER by seven.
+
+References
+Could not find source file.
+#+end_example
+
+** DONE 3.2.1 Change a Function Definition
+CLOSED: [2025-08-02 Sat 17:00]
+
+#+begin_src elisp
+  (defun multiply-by-seven (number)       ; Second version.
+    "Multiply NUMBER by seven."
+    (+ number number number number number number number))
+#+end_src
+
+#+RESULTS:
+: multiply-by-seven
+
+* DONE 3.3 Make a Function Interactive
+CLOSED: [2025-08-02 Sat 17:17]
+
+** An Interactive 'multiply-by-seven', An Overview
+
+#+begin_src elisp
+  (defun multiply-by-seven (number) ; Interactive version.
+    "Multiply NUMBER by seven."
+    (interactive "p")
+    (message "The result is %d" (* 7 number)))
+#+end_src
+
+#+RESULTS:
+: multiply-by-seven
+
+** DONE 3.3.1 An Interactive 'multiply-by-seven'
+CLOSED: [2025-08-02 Sat 17:22]
+
+* DONE 3.4 Different Options for 'interactive'
+CLOSED: [2025-08-03 Sun 09:43]
+
+* DONE 3.5 Install Code Permanently
+CLOSED: [2025-08-03 Sun 09:50]
+
+* DONE 3.6 'let' [4/4]
+
+** DONE 3.6.1 The Parts of a 'let' Expression
+CLOSED: [2025-08-03 Sun 10:06]
+
+** DONE 3.6.2 Sample 'let' Expression
+CLOSED: [2025-08-03 Sun 10:09]
+
+#+begin_src elisp
+  (let ((zebra "stripes")
+        (tiger "fierce"))
+    (message "One kind of animal has %s and another is %s." zebra tiger))
+#+end_src
+
+#+RESULTS:
+: One kind of animal has stripes and another is fierce.
+
+** DONE 3.6.3 Uninitialized Variables in a 'let' Statement
+CLOSED: [2025-08-03 Sun 10:11]
+
+#+begin_src elisp
+  (let ((birch 3)
+        pine
+        fir
+        (oak 'some))
+    (message
+     "Here are %d variables with %s, %s, and %s value."
+     birch pine fir oak))
+#+end_src
+
+#+RESULTS:
+: Here are 3 variables with nil, nil, and some value.
+
+** DONE 3.6.4 How 'let' Binds Variables
+CLOSED: [2025-08-03 Sun 11:53]
+
+#+begin_src elisp :lexical t
+  (setq x 0)
+
+  (defun getx ()
+    x)
+
+  (setq x 1)
+
+  (let ((x 2))
+    (getx))
+#+end_src
+
+#+RESULTS:
+: 1
+
+#+begin_src elisp :lexical nil
+  (setq x 0)
+
+  (defun getx ()
+    x)
+
+  (setq x 1)
+
+  (let ((x 2))
+    (getx))
+#+end_src
+
+#+RESULTS:
+: 2
+
+* DONE 3.7 The 'if' Special Form [2/2]
+
+** DONE 'if' in more detail
+CLOSED: [2025-08-03 Sun 12:46]
+
+#+begin_src elisp
+  (if (> 5 4)                             ; if-part
+      (message "5 is greater than 4!"))   ; then-part
+#+end_src
+
+#+RESULTS:
+: 5 is greater than 4!
+
+#+begin_src elisp
+  (defun type-of-animal (characteristic)
+    "Print message in echo area depending on CHARACTERISTIC.
+  If the CHARACTERISTIC is the string \"fierce\",
+  then warn of a tiger."
+    (if (equal characteristic "fierce")
+        (message "It is a tiger!")))
+#+end_src
+
+#+RESULTS:
+: type-of-animal
+
+#+begin_src elisp
+  (type-of-animal "fierce")
+#+end_src
+
+#+RESULTS:
+: It is a tiger!
+
+#+begin_src elisp
+  (type-of-animal "striped")
+#+end_src
+
+#+RESULTS:
+
+** DONE 3.7.1 The 'type-of-animal' Function in Detail
+CLOSED: [2025-08-03 Sun 12:51]
+
+* DONE 3.8 If-then-else Expressions
+CLOSED: [2025-08-03 Sun 13:29]
+#+begin_src elisp
+  (if (> 4 5)                               ; if-part
+      (message "4 falsely greater than 5!") ; then-part
+    (message "4 is not greater than 5!"))   ; else-part
+#+end_src
+
+#+RESULTS:
+: 4 is not greater than 5!
+
+#+begin_src elisp
+  (defun type-of-animal (characteristic)  ; Second version.
+    "Print message in echo area depending on CHARACTERISTIC.
+  If the CHARACTERISTIC is the string \"fierce\",
+  then warn of a tiger; else say it is not fierce."
+    (if (equal characteristic "fierce")
+        (message "It is a tiger!")
+      (message "It is not fierce!")))
+#+end_src
+
+#+RESULTS:
+: type-of-animal
+
+#+begin_src elisp
+  (type-of-animal "fierce")
+#+end_src
+
+#+RESULTS:
+: It is a tiger!
+
+#+begin_src elisp
+  (type-of-animal "striped")
+  #+end_src
+
+#+RESULTS:
+: It is not fierce!
+
+* DONE 3.9 Truth and Falsehood in Emacs Lisp
+CLOSED: [2025-08-03 Sun 13:37]
+
+** An explanation of 'nil'
+
+#+begin_src elisp
+  (if 4
+      'true
+    'false)
+      #+end_src
+
+#+RESULTS:
+: true
+
+#+begin_src elisp
+  (if nil
+      'true
+    'false)
+#+end_src
+
+#+RESULTS:
+: false
+
+#+begin_src elisp
+  (> 5 4)
+#+end_src
+
+#+RESULTS:
+: t
+
+#+begin_src elisp
+  (> 4 5)
+#+end_src
+
+#+RESULTS:
+
+* DONE 3.10 'save-excursion' [1/1]
+
+** DONE 3.10.1 Template for a 'save-excursion' Expression
+CLOSED: [2025-08-03 Sun 13:44]
+
+* DONE 3.11 Review
+CLOSED: [2025-08-03 Sun 13:49]
+
+* DONE 3.12 Exercises [2/2]
+
+** DONE Write a non-interactive function that doubles the value of its argument, a number. Make that function interactive.
+CLOSED: [2025-08-03 Sun 13:54]
+
+#+begin_src elisp
+  (defun md-double (number)
+    (* 2 number))
+  (md-double 2)
+#+end_src
+
+#+RESULTS:
+: 4
+
+#+begin_src elisp
+  (defun md-double-interactive (number)
+    (interactive "p")
+    (message "The result is %d" (* 2 number)))
+#+end_src
+
+#+RESULTS:
+: md-double-interactive
+
+** DONE Write a function that tests whether the current value of 'fill-column' is greater than the argument passed to the function, and if so, prints an appropriate message.
+CLOSED: [2025-08-03 Sun 13:58]
+
+#+begin_src elisp
+  (defun md-gt-fill-column (number)
+    (if (> number fill-column)
+        (message "%d is greater than fill-column" number)
+      (message "%d is less than fill-column" number)))
+#+end_src
+
+#+RESULTS:
+: md-gt-fill-column
+
+#+begin_src elisp
+  (md-gt-fill-column 100)
+#+end_src
+
+#+RESULTS:
+: 100 is greater than fill-column
+
+#+begin_src elisp
+  (md-gt-fill-column 1)
+#+end_src
+
+#+RESULTS:
+: 1 is less than fill-column
