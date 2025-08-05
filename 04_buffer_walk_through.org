@@ -1,0 +1,139 @@
+#+title: Buffer Walk Through
+#+author: Marian Domanski
+#+date: <2025-08-03 Sun 16:32>
+#+startup: overview
+
+* DONE 4.1 Finding More Information
+CLOSED: [2025-08-03 Sun 20:24]
+
+* DONE 4.2 A Simplified 'beginning-of-buffer' Definition
+CLOSED: [2025-08-03 Sun 20:41]
+
+#+begin_src elisp
+  (defun simplified-beginning-of-buffer ()
+    "Move point to the beginning of the buffer;
+  leave mark at previous position."
+    (interactive)
+    (push-mark)
+    (goto-char (point-min)))
+#+end_src
+
+#+RESULTS:
+: simplified-beginning-of-buffer
+
+* DONE 4.3 The Definition of 'mark-whole-buffer' [1/1]
+
+** An overview of 'mark-whole-buffer'
+
+#+begin_src elisp
+  (defun mark-whole-buffer ()
+    "Put point at beginning and mark at end of buffer.
+  You probably should not use this function in Lisp programs;
+  it is usually a mistake for a Lisp function to use any subroutine
+  that uses or sets the mark."
+    (interactive)
+    (push-mark (point))
+    (push-mark (point-max) nil t)
+    (goto-char (point-min)))
+#+end_src
+
+#+RESULTS:
+: mark-whole-buffer
+
+** DONE 4.3.1 Body of 'mark-whole-buffer'
+CLOSED: [2025-08-04 Mon 20:10]
+
+* DONE 4.4 The Definition of 'append-to-buffer' [3/3]
+
+** An Overview of 'append-to-buffer'
+
+#+begin_src elisp
+  (defun append-to-buffer (buffer start end)
+    "Append to specified buffer the text of the region.
+  It is inserted into that buffer before its point.
+
+  When calling from a program, give three arguments:
+  BUFFER (or buffer name), START and END.
+  START and END specify the portion of the current buffer to be copied."
+    (interactive
+     (list (read-buffer "Append to buffer: " (other-buffer
+                                              (current-buffer) t))
+           (region-beginning) (region-end)))
+    (let ((oldbuf (current-buffer)))
+      (save-excursion
+        (let* ((append-to (get-buffer-create buffer))
+               (windows (get-buffer-window-list append-to t t))
+               point)
+          (set-buffer append-to)
+          (setq point (point))
+          (barf-if-buffer-read-only)
+          (insert-buffer-substring oldbuf start end)
+          (dolist (window windows)
+            (when (= (window-point window) point)
+              (set-window-point window (point))))))))
+          #+end_src
+
+** DONE 4.4.1 The 'append-to-buffer' Interactive Expression
+CLOSED: [2025-08-04 Mon 20:26]
+
+** DONE 4.4.2 The Body of 'append-to-buffer'
+CLOSED: [2025-08-04 Mon 20:29]
+
+** DONE 4.4.3 'save-excursion' in 'append-to-buffer'
+CLOSED: [2025-08-04 Mon 20:51]
+
+* DONE 4.5 Review
+CLOSED: [2025-08-04 Mon 21:00]
+
+* DONE 4.6 Exercises [3/3]
+
+** DONE Simplified end of buffer
+CLOSED: [2025-08-04 Mon 21:02]
+
+#+begin_src elisp
+  (defun simplified-end-of-buffer ()
+    "Move point to the end of the buffer;
+  leave mark at previous position."
+    (interactive)
+    (push-mark)
+    (goto-char (point-max)))
+#+end_src
+
+#+RESULTS:
+: simplified-end-of-buffer
+
+** DONE Buffer exists
+CLOSED: [2025-08-04 Mon 21:12]
+
+#+begin_src elisp
+  (defun does-buffer-exist (buffer)
+    "Prints message if BUFFER exists as a buffer."
+    (if (get-buffer buffer)
+        (message "%s exists." buffer)))
+#+end_src
+
+#+RESULTS:
+: does-buffer-exist
+
+#+begin_src elisp
+  (does-buffer-exist "*scratch*")
+#+end_src
+
+#+RESULTS:
+: *scratch* exists.
+
+#+begin_src elisp
+  (does-buffer-exist (current-buffer))
+#+end_src
+
+#+RESULTS:
+: 04_buffer_walk_through.org exists.
+
+#+begin_src elisp
+  (does-buffer-exist "")
+#+end_src
+
+#+RESULTS:
+
+** DONE Find the source for 'copy-to-buffer'
+CLOSED: [2025-08-04 Mon 21:19]
