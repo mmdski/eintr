@@ -1,0 +1,68 @@
+#+title: More Complex
+#+author: Marian Domanski
+#+date: <2025-08-05 Tue 07:43>
+#+startup: overview
+
+* DONE 5.1 The Definition of 'copy-to-buffer'
+CLOSED: [2025-08-05 Tue 20:48]
+
+#+begin_src elisp :eval never
+  (interactive "BCopy to buffer: \nr")
+  (let ((oldbuf (current-buffer)))
+    (with-current-buffer (get-buffer-create buffer)
+      (barf-if-buffer-read-only)
+      (erase-buffer)
+      (save-excursion
+        (insert-buffer-substring oldbuf start end)))))
+#+end_src
+
+* DONE 5.2 The Definition of 'insert-buffer' [6/6]
+
+** The Code for 'insert-buffer'
+
+#+begin_src elisp
+  (defun insert-buffer (buffer)
+    "Insert after point the contents of BUFFER.
+  Puts mark after the inserted text.
+  BUFFER may be a buffer or a buffer name."
+    (interactive "*bInsert buffer: ")
+    (or (bufferp buffer)
+        (setq buffer (get-buffer buffer)))
+    (let (start end newmark)
+      (save-excursion
+        (save-excursion
+          (set-buffer buffer)
+          (setq start (point-min) end (point-max)))
+        (insert-buffer-substring buffer start end)
+        (setq newmark (point)))
+      (push-mark newmark)))
+#+end_src
+
+** DONE 5.2.1 The Interactive Expression in 'insert-buffer'
+CLOSED: [2025-08-05 Tue 21:04]
+
+** DONE 5.2.2 The Body of the 'insert-buffer' Function
+CLOSED: [2025-08-06 Wed 07:47]
+
+** DONE 5.2.3 'insert-buffer' with an 'if' Instead of an 'or'
+CLOSED: [2025-08-06 Wed 07:51]
+
+** DONE 5.2.4 The 'or' in the body
+CLOSED: [2025-08-06 Wed 18:15]
+
+** DONE 5.2.5 The 'let' Expression in 'insert-buffer'
+CLOSED: [2025-08-06 Wed 18:39]
+
+** DONE 5.2.6 New Body for 'insert-buffer'
+CLOSED: [2025-08-06 Wed 18:45]
+
+#+begin_src elisp :eval never
+  (push-mark
+   (save-excursion
+     (insert-buffer-substring (get-buffer buffer))
+     (point)))
+
+  nil
+#+end_src
+
+* 5.3 Complete Definition of 'beginning-of-buffer' [/]
