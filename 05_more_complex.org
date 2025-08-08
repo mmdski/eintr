@@ -65,4 +65,94 @@ CLOSED: [2025-08-06 Wed 18:45]
   nil
 #+end_src
 
-* 5.3 Complete Definition of 'beginning-of-buffer' [/]
+* DONE 5.3 Complete Definition of 'beginning-of-buffer' [3/3]
+
+** DONE 5.3.1 Optional Arguments
+CLOSED: [2025-08-06 Wed 20:59]
+
+#+begin_src elisp :eval never
+  (defun beginning-of-buffer (&optional arg)
+    "DOCUMENTATION..."
+    (interactive "P")
+    (or (IS-THE-ARGUMENT-A-CONS-CELL arg)
+        (and ARE-BOTH-TRANSIENT-MARK-MODE-AND-MARK-ACTIVE-TRUE)
+        (push-mark))
+    (let (DETERMINE-SIZE-AND-SET-IT)
+      (goto-char
+       (IF-THERE-IS-AN-ARGUMENT
+        FIGURE-OUT-WHERE-TO-GO
+        ELSE-GO-TO
+        (point-min))))
+    DO-NICETY)
+#+end_src
+
+** DONE 5.3.2 'beginning-of-buffer' with an Argument
+CLOSED: [2025-08-06 Wed 21:08]
+
+#+begin_src elisp :eval never
+    (if (> (buffer-size) 10000)
+      ;; Avoid overflow for large buffer sizes!
+      (* (prefix-numeric-value arg)
+         (/ size 10))
+    (/
+     (+ 10
+        (* size
+           (prefix-numeric-value arg)))
+     10)
+#+end_src
+
+** DONE 5.3.3 The Complete 'beginning-of-buffer'
+CLOSED: [2025-08-07 Thu 21:53]
+
+#+begin_src elisp :eval never
+  (defun beginning-of-buffer (&optional arg)
+    "Move point to the beginning of the buffer;
+  leave mark at previous position.
+  With \\[universal-argument] prefix,
+  do not set mark at previous position.
+  With numeric arg N,
+  put point N/10 of the way from the beginning.
+
+  If the buffer is narrowed,
+  this command uses the beginning and size
+  of the accessible part of the buffer.
+
+  Don't use this command in Lisp programs!
+  \(goto-char (point-min)) is faster
+  and avoids clobbering the mark."
+    (interactive "P")
+    (or (consp arg)
+        (and transient-mark-mode mark-active)
+        (push-mark))
+    (let ((size (- (point-max) (point-min))))
+      (goto-char (if (and arg (not (consp arg)))
+                     (+ (point-min)
+                        (if (> size 10000)
+                            ;; Avoid overflow for large buffer sizes!
+                            (* (prefix-numeric-value arg)
+                               (/ size 10))
+                          (/ (+ 10 (* size (prefix-numeric-value arg)))
+                             10)))
+                   (point-min)))
+      (if (and arg (not (consp arg))) (forward-line 1)))
+#+end_src
+
+* DONE 5.4 Review
+CLOSED: [2025-08-07 Thu 21:56]
+
+* DONE 5.5 'optional' Argument Exercise
+CLOSED: [2025-08-07 Thu 22:20]
+
+#+begin_src elisp
+  (defun optional-argument-exercise (&optional arg)
+    (interactive "P")
+    (if arg
+        (setq num (prefix-numeric-value arg))
+      (setq num 56))
+    (if (>= num fill-column)
+        (message "%d is greater than or equal to fill-column" num)
+      (message "%d is less than fill-column" num)))
+#+end_src
+
+#+RESULTS:
+: optional-argument-exercise
