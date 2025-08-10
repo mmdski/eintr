@@ -1,0 +1,37 @@
+#+title: Narrowing and Widening
+#+author: Marian Domanski
+#+date: <2025-08-08 Fri 07:08>
+#+startup: overview
+* DONE 6.1 The 'save-restriction' Special Form
+CLOSED: [2025-08-09 Sat 20:39]
+* DONE 6.2 'what-line'
+CLOSED: [2025-08-10 Sun 07:16]
+
+#+begin_src elisp :eval never
+  (defun what-line ()
+    "Print the current line number (in the buffer) of point."
+    (interactive)
+    (save-restriction
+      (widen)
+      (save-excursion
+        (beginning-of-line)
+        (message "Line %d"
+                 (1+ (count-lines 1 (point)))))))
+#+end_src
+* DONE 6.3 Exercise with Narrowing
+CLOSED: [2025-08-10 Sun 07:50]
+
+#+begin_src elisp
+  (defun md-first-sixty-lines ()
+    (interactive)
+    (save-restriction
+      (widen)
+      (save-excursion
+        (goto-char (point-min))
+        (forward-line 60)
+        (message "%s"
+                 (buffer-substring-no-properties (point-min) (point))))))
+#+end_src
+
+#+RESULTS:
+: md-first-sixty-lines
