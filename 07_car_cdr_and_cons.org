@@ -1,0 +1,359 @@
+#+title: ‘car’, ‘cdr’, ‘cons’: Fundamental Functions
+#+author: Marian Domanski
+#+date: <2025-08-10 Sun 08:36>
+#+startup: overview
+
+* DONE 7.1 ‘car’ and ‘cdr’
+CLOSED: [2025-08-10 Sun 15:21]
+
+#+begin_src elisp
+  (car '(rose violet daisy buttercup))
+#+end_src
+
+#+RESULTS:
+: rose
+
+#+begin_src elisp
+  (cdr '(rose violet daisy buttercup))
+#+end_src
+
+#+RESULTS:
+| violet | daisy | buttercup |
+
+#+begin_src elisp
+  (car '(pine fir oak maple))
+#+end_src
+
+#+RESULTS:
+: pine
+
+#+begin_src elisp
+  (cdr '(pine fur oak maple))
+#+end_src
+
+#+RESULTS:
+| fur | oak | maple |
+
+#+begin_src elisp
+  (car '((lion tiger cheetah)
+         (gazelle antelope zebra)
+         (whale dolphin seal)))
+#+end_src
+
+#+RESULTS:
+| lion | tiger | cheetah |
+
+#+begin_src elisp
+  (cdr '((lion tiger cheetah)
+         (gazelle antelope zebra)
+         (whale dolphin seal)))
+#+end_src
+
+#+RESULTS:
+| gazelle | antelope | zebra |
+| whale   | dolphin  | seal  |
+
+* DONE 7.2 ‘cons’
+CLOSED: [2025-08-10 Sun 16:01]
+
+#+begin_src elisp
+  (cons 'pine '(fir oak maple))
+#+end_src
+
+#+RESULTS:
+| pine | fir | oak | maple |
+
+** Build a list
+
+#+begin_src elisp
+  (cons 'buttercup ())
+#+end_src
+
+#+RESULTS:
+| buttercup |
+
+#+begin_src elisp
+  (cons 'daisy '(buttercup))
+#+end_src
+
+#+RESULTS:
+| daisy | buttercup |
+
+#+begin_src elisp
+  (cons 'violet '(daisy buttercup))
+#+end_src
+
+#+RESULTS:
+| violet | daisy | buttercup |
+
+#+begin_src elisp
+  (cons 'rose '(violet daisy buttercup))
+#+end_src
+
+#+RESULTS:
+| rose | violet | daisy | buttercup |
+
+** DONE 7.2.1 Find the Length of a List: ‘length’
+CLOSED: [2025-08-10 Sun 15:34]
+
+#+begin_src elisp
+  (length '(buttercup))
+#+end_src
+
+#+RESULTS:
+: 1
+
+#+begin_src elisp
+  (length '(daisy buttercup))
+#+end_src
+
+#+RESULTS:
+: 2
+
+#+begin_src elisp
+  (length (cons 'violet '(daisy buttercup)))
+#+end_src
+
+#+RESULTS:
+: 3
+
+#+begin_src elisp
+  (length ())
+#+end_src
+
+#+RESULTS:
+: 0
+
+#+begin_src elisp
+  (length )
+#+end_src
+
+Wrong number of arguments: length, 0
+
+* DONE 7.3 ‘nthcdr’
+CLOSED: [2025-08-10 Sun 16:01]
+
+#+begin_src elisp
+  (cdr '(pine fir oak maple))
+#+end_src
+
+#+RESULTS:
+| fir | oak | maple |
+
+#+begin_src elisp
+  (cdr '(fir oak maple))
+#+end_src
+
+#+RESULTS:
+| oak | maple |
+
+#+begin_src elisp
+  (cdr '(oak maple))
+#+end_src
+
+#+RESULTS:
+| maple |
+
+#+begin_src elisp
+  (cdr '(maple))
+#+end_src
+
+#+RESULTS:
+
+#+begin_src elisp
+  (cdr 'nil)
+#+end_src
+
+#+RESULTS:
+
+#+begin_src elisp
+  (cdr ())
+#+end_src
+
+#+RESULTS:
+
+#+begin_src elisp
+  (cdr (cdr '(pine fir oak maple)))
+#+end_src
+
+#+RESULTS:
+| oak | maple |
+
+#+begin_src elisp
+  (nthcdr 2 '(pine fir oak maple))
+#+end_src
+
+#+RESULTS:
+| oak | maple |
+
+#+begin_src elisp
+  (nthcdr 0 '(pine fir oak maple))
+#+end_src
+
+#+RESULTS:
+| pine | fir | oak | maple |
+
+#+begin_src elisp
+  (nthcdr 1 '(pine fir oak maple))
+#+end_src
+
+#+RESULTS:
+| fir | oak | maple |
+
+#+begin_src elisp
+  (nthcdr 3 '(pine fir oak maple))
+#+end_src
+
+#+RESULTS:
+| maple |
+
+#+begin_src elisp
+  (nthcdr 4 '(pine fir oak maple))
+#+end_src
+
+#+RESULTS:
+
+#+begin_src elisp
+  (nthcdr 5 '(pine fir oak maple))
+#+end_src
+
+#+RESULTS:
+
+* DONE 7.4 ‘nth’
+CLOSED: [2025-08-10 Sun 19:16]
+
+#+begin_src elisp
+  (nth 0 '("one" "two" "three"))
+#+end_src
+
+#+RESULTS:
+: one
+
+#+begin_src elisp
+  (nth 1 '("one" "two" "three"))
+#+end_src
+
+#+RESULTS:
+: two
+
+* DONE 7.5 ‘setcar’
+CLOSED: [2025-08-10 Sun 20:27]
+
+#+begin_src elisp
+  (setq animals (list 'antelope 'giraffee 'lion 'tiger))
+#+end_src
+
+#+RESULTS:
+| antelope | giraffee | lion | tiger |
+
+#+begin_src elisp
+  animals
+#+end_src
+
+#+RESULTS:
+| antelope | giraffee | lion | tiger |
+
+#+begin_src elisp
+  (setcar animals 'hippopotamus)
+#+end_src
+
+#+RESULTS:
+: hippopotamus
+
+#+begin_src elisp
+  animals
+#+end_src
+
+#+RESULTS:
+| hippopotamus | giraffee | lion | tiger |
+
+* DONE 7.6 ‘setcdr’
+CLOSED: [2025-08-10 Sun 20:31]
+
+#+begin_src elisp
+  (setq domesticated-animals (list 'horse 'cow 'sheep 'ghost))
+#+end_src
+
+#+RESULTS:
+| horse | cow | sheep | ghost |
+
+#+begin_src elisp
+  domesticated-animals
+#+end_src
+
+#+RESULTS:
+| horse | cow | sheep | ghost |
+
+#+begin_src elisp
+  (setcdr domesticated-animals '(cat dog))
+#+end_src
+
+#+RESULTS:
+| cat | dog |
+
+#+begin_src elisp
+  domesticated-animals
+  #+end_src
+
+#+RESULTS:
+| horse | cat | dog |
+
+* DONE 7.7 Exercises
+CLOSED: [2025-08-10 Sun 20:44]
+
+** Construct a list of four birds by evaluating several expressions with ‘cons’.
+
+#+begin_src elisp
+  (cons 'goose
+        (cons 'duck
+              (cons 'heron
+                    (cons 'crow ()))))
+#+end_src
+
+#+RESULTS:
+| goose | duck | heron | crow |
+
+** Find out what happens when you ‘cons’ a list onto itself.
+
+#+begin_src elisp
+  (setq l (list 'foo 'bar))
+#+end_src
+
+#+RESULTS:
+| foo | bar |
+
+#+begin_src elisp
+  (cons l l)
+#+end_src
+
+#+RESULTS:
+| (foo bar) | foo | bar |
+
+** Replace the first element of the list of four birds with a fish.
+
+#+begin_src elisp
+  (setq four-birds
+        (cons 'goose
+              (cons 'duck
+                    (cons 'heron
+                          (cons 'crow ())))))
+#+end_src
+
+#+RESULTS:
+| goose | duck | heron | crow |
+
+#+begin_src elisp
+  (setcar four-birds 'mackerel)
+  four-birds
+#+end_src
+
+#+RESULTS:
+| mackerel | duck | heron | crow |
+
+#+begin_src elisp
+  (setcdr four-birds (list 'bluegill 'bass))
+  four-birds
+#+end_src
+
+#+RESULTS:
+| mackerel | bluegill | bass |
